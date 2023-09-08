@@ -67,7 +67,7 @@ namespace IdentityServerHost.Quickstart.UI
                 return RedirectToAction("Challenge", "External", new { scheme = vm.ExternalLoginScheme, returnUrl });
             }
 
-            return Json(vm);
+            return View(vm);
         }
 
         /// <summary>

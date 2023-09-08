@@ -51,14 +51,6 @@ namespace IdentityServer
                         RoleClaimType = "role"
                     };
                 });
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy("corspolicy",
-                    builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader());
-            });
         }
 
         public void Configure(IApplicationBuilder app)
@@ -71,7 +63,6 @@ namespace IdentityServer
             // uncomment if you want to add MVC
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseCors("corspolicy");
 
             app.UseIdentityServer();
 
