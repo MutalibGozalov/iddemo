@@ -1,4 +1,8 @@
 ﻿using System.Diagnostics;
+using System.Net.Http.Headers;
+using System.Text.Json.Nodes;
+using IdentityModel.Client;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using MVC.Models;
 
@@ -21,6 +25,18 @@ public class HomeController : Controller
     public IActionResult Logout()
     {
         return SignOut("Cookies", "oidc");
+    }
+
+    public async Task<IActionResult> CallApi()
+    {
+        var accessToken = await HttpContext.GetTokenAsync("access_token");
+
+        var client = new HttpClient();
+        client.SetBearerToken(accessToken);
+        // client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+        var content = await client.GetAsync("http://localhost:5001/identity");
+        ViewBag.Json = await content.Content.ReadAsStringAsync();
+        return View("json");
     }
 
     public IActionResult Privacy()
